@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
-
+#define xx first
+#define yy second
 using ull = unsigned long long;
 using ll = long long;
 using ld = long double;
