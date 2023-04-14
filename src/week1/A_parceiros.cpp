@@ -2,7 +2,7 @@
 using namespace std;
 
 using ull = unsigned long long;
-using ll = long long;
+using ull = long long;
 using ld = long double;
 long long pinf = 9223372036854775807;
 long long minf = -9223372036854775807;
@@ -14,7 +14,7 @@ int main()
 
     ull t;
     string x, y;
-    ll fx, fy;
+    ull fx, fy;
     cin >> t;
 
     while (t--)

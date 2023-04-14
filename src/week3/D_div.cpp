@@ -12,48 +12,6 @@ using us = unsigned short;
 long long pinf = 9223372036854775807;
 long long minf = -9223372036854775807;
 
-ll opt = pinf;
-
-void gen(vector<vector<ll>> ss, vector<ll> ps)
-{
-    if (ps.empty())
-    {
-        ll xxor = 0;
-        cout << "opt" << endl;
-        for (auto s : ss)
-        {
-            if (s.empty())
-            {
-                continue;
-            }
-            ll cor = 0;
-            for (auto c : s)
-            {
-                cout << c << " ";
-                cor |= c;
-            }
-            cout << endl;
-            xxor &= cor;
-        }
-
-        opt = min(xxor, opt);
-
-        return;
-    }
-
-    ll e = ps.back();
-    ps.pop_back();
-    for (auto &s : ss)
-    {
-        s.push_back(e);
-        if (is_sorted(s.rbegin(), s.rend()))
-        {
-            gen(ss, ps);
-        }
-        s.pop_back();
-    }
-}
-
 int main()
 {
     cin.tie(0);
@@ -67,10 +25,16 @@ int main()
     {
         cin >> a;
     }
-    av.reserve(n);
 
-    vector<vector<ll>> ss(n);
-    gen(ss, av);
-    cout << opt;
-    PN;
+    for (us i = 0; i < n; i++)
+    {
+        for (us j = i; j < n; j++)
+        {
+            for (us k = i; k <= j; k++)
+            {
+                cout << av[k] << " ";
+            }
+            PN;
+        }
+    }
 }

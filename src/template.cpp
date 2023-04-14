@@ -5,7 +5,7 @@ using namespace std;
 #define cord pair<ll, ll>
 #define PN cout << "\n"
 using ull = unsigned long long;
-using ll = long long;
+using ull = long long;
 using ld = long double;
 using s = short;
 using us = unsigned short;

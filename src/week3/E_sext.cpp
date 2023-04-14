@@ -27,13 +27,6 @@ int main()
     }
     sort(s.begin(), s.end());
 
-    // f = (a*b + c)/d - e
-    // e = (a*b + c)/d - f
-    // d = (a*b + c)/(e + f)
-    // c = (e + f)*(a*b)/d - a*b
-    // b = (e + f)*(a*b)/d - a*c
-    // a = (e + f)*(a*b)/d - b*c]
-
     vector<ll> ab;
     for (auto a : s)
     {
@@ -43,21 +36,22 @@ int main()
         }
     }
 
-    vector<cord> abc;
+    set<ll> abc;
+    map<ll, ll> abcR;
     for (auto i : ab)
     {
         for (auto b : s)
         {
             ll v = i + b;
-            auto fi = find(abc.begin(), abc.end(), v);
+            auto fi = abc.find(v);
             if (fi == abc.end())
             {
-                abc.push_back({v, 1});
+                abc.insert(v);
+                abcR[v] = 1;
             }
             else
             {
-                ll pos = fi - abc.begin();
-                abc[pos] = {v, abc[pos].yy + 1};
+                abcR[v] += 1;
             }
         }
     }
@@ -74,17 +68,12 @@ int main()
         {
             for (auto f : s)
             {
-                auto it = find_if(abc.begin(), abc.end(), [](const cord &s)
-                                  { return s.xx == ((d * f) + (d * e)); });
-                if (find(abc.begin(), abc.end(), ((d * f) + (d * e)), ) != abc.end())
-
-                    for (auto i : abc)
-                    {
-                        if (i.xx == ((d * f) + (d * e)))
-                        {
-                            ss += i.yy;
-                        }
-                    }
+                ll v = (d * f) + (d * e);
+                auto it = abc.find(v);
+                if (it != abc.end())
+                {
+                    ss += abcR[v];
+                }
             }
         }
     }

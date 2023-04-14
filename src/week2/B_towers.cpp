@@ -3,7 +3,7 @@ using namespace std;
 #define xx first
 #define yy second
 using ull = unsigned long long;
-using ll = long long;
+using ull = long long;
 using ld = long double;
 long long pinf = 9223372036854775807;
 long long minf = -9223372036854775807;
@@ -14,9 +14,9 @@ int main()
     ios_base::sync_with_stdio(0);
 
     // code
-    ll n;
+    ull n;
     cin >> n;
-    vector<tuple<ll, char, bool>> t(n);
+    vector<tuple<ull, char, bool>> t(n);
     for (auto &x : t)
     {
         cin >> get<0>(x);
@@ -30,8 +30,8 @@ int main()
         {
             if (get<1>(t[i]) == 'L')
             {
-                ll h = get<0>(t[i]);
-                ll j = i + 1;
+                ull h = get<0>(t[i]);
+                ull j = i + 1;
                 while ((get<0>(t[j]) < h) && (j < n))
                 {
                     j++;
@@ -51,8 +51,8 @@ int main()
 
             if (get<1>(t[i]) == 'O')
             {
-                ll h = get<0>(t[i]);
-                ll j = i - 1;
+                ull h = get<0>(t[i]);
+                ull j = i - 1;
                 while ((get<0>(t[j]) < h) && (j >= 0))
                 {
                     j--;

@@ -3,7 +3,7 @@ using namespace std;
 #define xx first
 #define yy second
 using ull = unsigned long long;
-using ll = long long;
+using ull = long long;
 using ld = long double;
 long long pinf = 9223372036854775807;
 long long minf = -9223372036854775807;
@@ -14,18 +14,18 @@ int main()
     ios_base::sync_with_stdio(0);
 
     // code
-    ll n;
+    ull n;
     cin >> n;
 
-    vector<ll> v(n);
+    vector<ull> v(n);
     for (auto &x : v)
     {
         cin >> x;
     }
 
-    stack<ll> s;
-    ll max = minf;
-    ll ca;
+    stack<ull> s;
+    ull max = minf;
+    ull ca;
 
     for (size_t i = 0; i < n; i++)
     {
@@ -71,6 +71,6 @@ int main()
             max = ca;
         }
     }
-    
+
     cout << max << endl;
 }
