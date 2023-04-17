@@ -18,4 +18,17 @@ int main()
     ios_base::sync_with_stdio(0);
 
     // code
+    ll n;
+    cin >> n;
+    ll c = 0;
+    ll x;
+    while (n--)
+    {
+        cin >> x;
+        if (x > 10)
+        {
+            c += x - 10;
+        }
+    }
+    cout << c << "\n";
 }

@@ -12,29 +12,82 @@ using us = unsigned short;
 long long pinf = 9223372036854775807;
 long long minf = -9223372036854775807;
 
+us n;
+vector<ll> av;
+
+ll opt = pinf;
+
+void gen(us i, vector<bool> bv)
+{
+    if (i == n)
+    {
+        // cout << "folha"
+        //      << "\n";
+
+        // // print the sequences
+        // bool last = false;
+        // cout << "[ ";
+        // for (us i = 0; i < n; i++)
+        // {
+        //     if (bv[i] == !last)
+        //     {
+        //         cout << "] [ ";
+        //     }
+        //     cout << av[i] << " ";
+        //     last = bv[i];
+        // }
+        // cout << "]"
+        //      << "\n";
+
+        vector<ll> xs(n, 0);
+        us c = 0;
+        bool last = false;
+        for (us i = 0; i < n; i++)
+        {
+            if (bv[i] == !last)
+            {
+                c++;
+            }
+            xs[c] |= av[i];
+        }
+        ll s = 0;
+        for (auto x : xs)
+        {
+            // cout << x << " ";
+            s ^= x;
+        }
+        PN;
+        if (s < opt)
+        {
+            opt = s;
+        }
+        return;
+    }
+
+    gen(i + 1, bv);
+    if (i > 0)
+    {
+        bv[i] = true;
+        gen(i + 1, bv);
+    }
+}
+
 int main()
 {
     cin.tie(0);
     ios_base::sync_with_stdio(0);
 
     // code
-    us n;
+
     cin >> n;
-    vector<ll> av(n);
+    av.resize(n);
     for (auto &a : av)
     {
         cin >> a;
     }
 
-    for (us i = 0; i < n; i++)
-    {
-        for (us j = i; j < n; j++)
-        {
-            for (us k = i; k <= j; k++)
-            {
-                cout << av[k] << " ";
-            }
-            PN;
-        }
-    }
+    vector<bool> bv(n, false);
+    gen(0, bv);
+    cout << opt;
+    PN;
 }
