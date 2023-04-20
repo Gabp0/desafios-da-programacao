@@ -12,6 +12,15 @@ using us = unsigned short;
 long long pinf = 9223372036854775807;
 long long minf = -9223372036854775807;
 
+void print(vector<ll> v)
+{
+    for (auto i : v)
+    {
+        cout << i << " ";
+    }
+    PN;
+}
+
 int main()
 {
     cin.tie(0);
@@ -34,84 +43,30 @@ int main()
         cin >> i;
     }
 
-    ll fx = x;
+    sort(p.rbegin(), p.rend());
+    sort(q.rbegin(), q.rend());
+    sort(r.rbegin(), r.rend());
 
-    sort(p.begin(), p.end());
-    sort(q.begin(), q.end());
-    sort(r.begin(), r.end());
+    vector<ll> ord(p.begin(), p.begin() + x);
+    vector<ll> ogn(q.begin(), q.begin() + y);
+    ord.insert(ord.end(), ogn.begin(), ogn.end());
+    sort(ord.rbegin(), ord.rend());
+
+    ll i_wh = 0;
+    while ((i_wh < r.size()) && (ord[ord.size() - 1 - i_wh] < r[i_wh]))
+    {
+        i_wh++;
+    }
 
     ll gt = 0;
-    ll cw, cr, cg, cmax;
-    char cmaxl;
-    while ((x > 0) || (y > 0))
+    for (ull i = 0; i <= (ord.size() - 1 - i_wh); i++)
     {
-        cw = cr = cg = 0;
-        if (!r.empty())
-        {
-            cw = r.back();
-        }
-
-        if (!p.empty() && (x > 0))
-        {
-            cr = p.back();
-        }
-
-        if (!q.empty() && (y > 0))
-        {
-            cg = q.back();
-        }
-
-        if (cr > cg)
-        {
-            cmax = cr;
-            cmaxl = 'r';
-        }
-        else
-        {
-            cmax = cg;
-            cmaxl = 'g';
-        }
-        if (cw > cmax)
-        {
-            cmax = cw;
-            cmaxl = 'w';
-        }
-
-        if (cmaxl == 'w')
-        {
-            gt += cw;
-            r.pop_back();
-
-            if (((cr > cg) || (cr == 0)) && (y > 0))
-            {
-                y--;
-            }
-            else if (x > 0)
-            {
-                x--;
-            }
-        }
-        else if (cmaxl == 'r')
-        {
-            gt += cr;
-            p.pop_back();
-            x--;
-        }
-        else if (cmaxl == 'g')
-        {
-            gt += cg;
-            q.pop_back();
-            y--;
-        }
+        gt += ord[i];
+    }
+    for (ll i = 0; i < i_wh; i++)
+    {
+        gt += r[i];
     }
 
-    if (gt == 122026187226637)
-    {
-        cout << fx << "\n";
-    }
-    else
-    {
-
-        cout << gt << "\n";
-    }
+    cout << gt << "\n";
 }
