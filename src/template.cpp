@@ -12,6 +12,16 @@ using us = unsigned short;
 long long pinf = 9223372036854775807;
 long long minf = -9223372036854775807;
 
+void print(vector<ll> v, string s = "")
+{
+    cout << s << ": ";
+    for (auto i : v)
+    {
+        cout << i << " ";
+    }
+    cout << endl;
+}
+
 int main()
 {
     cin.tie(0);
