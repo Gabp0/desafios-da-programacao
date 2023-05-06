@@ -22,31 +22,69 @@ void print(vector<ll> v, string s = "")
     cout << endl;
 }
 
+ll swaps = 0;
+ll h;
+vector<cord> a;
+void merge_sort(int l, int r)
+{
+    if (r - l == 1)
+    {
+        return;
+    }
+    int mi = l + (r - l) / 2;
+    merge_sort(l, mi);
+    merge_sort(mi, r);
+    vector<cord> aux(r - l);
+    int i = l, j = mi;
+    for (int k = 0; k < r - l; k++)
+    {
+        if (i < mi && j < r)
+        {
+            if (!(a[i].xx < a[j].xx))
+            {
+                if (a[j].yy > h - 1)
+                {
+                    swaps += mi - i;
+                }
+                // cout << "swapping " << a[i] << " and " << a[j] << " s = " << swaps << "\n";
+            }
+            if (a[i].xx < a[j].xx)
+            {
+                aux[k] = a[i++];
+            }
+            else
+            {
+                aux[k] = a[j++];
+            }
+        }
+        else if (i < mi)
+        {
+            aux[k] = a[i++];
+        }
+        else
+        {
+            aux[k] = a[j++];
+        }
+    }
+    copy(aux.begin(), aux.end(), a.begin() + l);
+}
+
 int main()
 {
     cin.tie(0);
     ios_base::sync_with_stdio(0);
 
     // code
-    ll n, h;
+    ll n;
     cin >> n >> h;
-    vector<ll> p(n);
-    ll tpls = 0;
-    for (ll i = 0; i < n; i++)
+    a = vector<cord>(n);
+
+    for (ll i = 0; i < n; ++i)
     {
-        cin >> p[i];
-        if (h <= 0)
-        {
-            for (ll j = i; j >= 0; j--)
-            {
-                if (p[j] > p[i])
-                {
-                    tpls++;
-                }
-            }
-        }
-        h--;
-        //print(p);
+        cin >> a[i].xx;
+        a[i].yy = i;
     }
-    cout << tpls << "\n";
+    merge_sort(0, n);
+
+    cout << swaps << "\n";
 }
