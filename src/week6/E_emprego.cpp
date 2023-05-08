@@ -23,11 +23,26 @@ void print(vector<ll> v, string s = "")
 }
 
 ll n;
+vector<ll> sm;
+void add(ll i, ll delta)
+{
+    for (; i < n + 1; i += i & (-i))
+        sm[i] += delta;
+}
+int get(ll i)
+{
+    ll ans = 0;
+    for (; i > 0; i -= i & (-i))
+        ans += sm[i];
+    return ans;
+}
+
 double a;
 
 double calc(double v2, vector<ll> v)
 {
     double ans = 0.0;
+    
     for (ll i = n - 1; i >= 0; --i)
     {
         if (v2 >= (double)v[i])
@@ -47,6 +62,8 @@ double bs(vector<ll> v)
     {
         mid = (b + e) / 2.0;
         double c = calc(mid, v);
+
+        cout << "c: " << c << " a: " << a << " mid: " << mid << " res: " << fabs(c - (double)a) << endl;
 
         if (fabs(c - (double)a) < 1e-5)
         {
@@ -71,11 +88,13 @@ int main()
         }
 
         vector<ll> v(n);
+        sm = vector<ll>(n + 1, 0);
         ll sum = 0;
-        for (auto &i : v)
+        for (ll i = 0; i < n; ++i)
         {
-            cin >> i;
-            sum += i;
+            cin >> v[i];
+            sum += v[i];
+            add(i + 1, v[i]);
         }
 
         if (sum < a)

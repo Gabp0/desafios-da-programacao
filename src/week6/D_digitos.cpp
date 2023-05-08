@@ -22,25 +22,39 @@ void print(vector<ll> v, string s = "")
     cout << endl;
 }
 
-inline sh dr(string a)
-{
-    ll d = 0;
-    for (auto i : a)
-    {
-        d = ((i - '0') + d) % 9;
-    }
-    return d;
-}
-
 inline sh dr(sh a)
 {
-    sh d = 0;
-    while (a > 0)
+    if ((a % 9) == 0)
     {
-        d += a % 10;
-        a /= 10;
+        return 0;
     }
-    return d % 9;
+
+    while (a > 9)
+    {
+        sh sum = 0;
+        while (a > 0)
+        {
+            sum += (a % 10);
+            a /= 10;
+        }
+        a = sum % 9;
+    }
+    return a;
+}
+
+ll n;
+vector<ll> sm;
+void add(ll i, ll delta)
+{
+    for (; i < n + 1; i += i & (-i))
+        sm[i] += delta;
+}
+int get(ll i)
+{
+    ll ans = 0;
+    for (; i > 0; i -= i & (-i))
+        ans += sm[i];
+    return ans;
 }
 
 int main()
@@ -49,12 +63,24 @@ int main()
     ios_base::sync_with_stdio(0);
 
     // code
-    ll n, q;
-    string s;
+    ll q;
 
     cin >> n;
-    cin >> s;
+    sm = vector<ll>(n + 1, 0);
+    string s;
+
+    char c;
+    for (ll i = 1; i < n + 1; i++)
+    {
+        cin >> c;
+        s += c;
+        add(i, (c - '0'));
+    }
     cin >> q;
+    // print(sm);
+    // cout << s << endl;
+
+    int token = 1;
 
     while (q--)
     {
@@ -67,29 +93,31 @@ int main()
             sh d;
             cin >> a1 >> b1 >> a2 >> b2 >> d;
 
-            string op1, op2;
-            for (ll i = a1; i <= b1; i++)
-            {
-                op1 += s[i - 1];
-            }
-            for (ll i = a2; i <= b2; i++)
-            {
-                op2 += s[i - 1];
-            }
+            ll d1 = (get(b1) - get(a1 - 1));
+            ll d2 = (get(b2) - get(a2 - 1));
 
-            // cout << "d = " << d << "\n";
+            // cout << "\nd = " << d << "\n";
+            // cout << "op = " << op << "\n";
             // cout << "pos = " << a1 << " " << b1 << " " << a2 << " " << b2 << "\n";
-            // cout << "op1 = " << op1 << " op2 = " << op2 << "\n";
+            // cout << "d1 = " << d1 << " d2 = " << d2 << "\n";
+
+            d1 = d1 % 9;
+            d2 = d2 % 9;
 
             bool ans = false;
             if (op == 1)
             {
-                ans = (dr(dr(op1) + dr(op2)) == d);
+                ans = (dr(d1 + d2) == d);
             }
             else if (op == 2)
             {
-                ans = (dr(dr(op1) * dr(op2)) == d);
+                ans = (dr(d1 * d2) == d);
             }
+
+            // if (token == 981)
+            // {
+            //     cout << d1 << "/" << d2 << "/" << d << endl;
+            // }
 
             if (ans)
             {
@@ -99,15 +127,26 @@ int main()
             {
                 cout << "NO\n";
             }
+            token++;
         }
         else if (op == 3)
         {
             ll p;
             char d;
-            cin >> p;
-            cin >> d;
+            cin >> p >> d;
+
+            ll delta = (d - '0') - (s[p - 1] - '0');
+
             s[p - 1] = d;
+
+            add(p, delta);
+
+            // cout << "\np = " << p << " d = " << d << endl;
+            // print(sm);
+            // cout << "\n"
+            //      << s << "\n";
         }
-        cerr << q << "\n";
     }
 }
+
+// d1 = 20904 d2 = 11128 6853
