@@ -1,5 +1,5 @@
 CC = c++
-CFLAGS = -g -std=c++20 -O2 -Wall
+CFLAGS = -g -std=c++20 -O2 -Wall -fsanitize=address,undefined
 
 VPATH = src:src/*
 

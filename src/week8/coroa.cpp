@@ -4,7 +4,7 @@ using namespace std;
 #define yy second
 #define cord pair<ll, ll>
 #define edge pair<ll, ll>
-#define PN cout << "\n"
+#define PN // cout << "\n"
 using ull = unsigned long long;
 using ll = long long;
 using ld = long double;
@@ -30,8 +30,8 @@ vector<ll> fathers(2, -1);
 
 ll explore(ll u)
 {
+    // cout << "u == " << u << endl;
     visited[u] = true;
-    // cout << "u == " << u << "\n";
 
     for (ll v : adj[u])
     {
@@ -39,13 +39,17 @@ ll explore(ll u)
         if (!visited[v] && (v != fathers[u]))
         {
             // cout << "v != fathers[u]\n";
-            if (!alive[v])
+            if (alive[v])
             {
-                explore(v);
-            }
-            else
-            {
+                // cout << "returning " << v << endl;
                 return v;
+            }
+
+            ll res = explore(v);
+            if (res != -1)
+            {
+                // cout << "returning " << res << endl;
+                return res;
             }
         }
     }
@@ -68,8 +72,8 @@ int main()
         cin >> t >> x;
         if (t == 1)
         {
-            cout << "x == " << x << " q == " << q << endl;
-            cout << adj[x].size() << endl;
+            // cout << "x == " << x << endl;
+            //  //cout << adj[x].size() << endl;
             adj.push_back(vector<ll>());
             adj[x].push_back(adj.size() - 1);
             adj[adj.size() - 1].push_back(x);
@@ -78,12 +82,13 @@ int main()
         }
         else if (t == 2)
         {
+            // cout << "x == dead " << x << endl;
             alive[x] = false;
             visited = vector<bool>(adj.size(), false);
             if (co == x)
             {
                 ll last = x;
-                // cout << "co == " << co << "\n";
+                // cout << "sco == " << co << "\n";
                 co = explore(co);
                 while (co == -1)
                 {
@@ -91,6 +96,7 @@ int main()
                     last = fathers[last];
                 }
             }
+            // cout << "co == " << co << endl;
             cout << co << "\n";
         }
     }
