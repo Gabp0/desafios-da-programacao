@@ -3,6 +3,7 @@ using namespace std;
 #define xx first
 #define yy second
 #define cord pair<ll, ll>
+#define edge pair<ll, ll>
 #define PN cout << "\n"
 using ull = unsigned long long;
 using ll = long long;
