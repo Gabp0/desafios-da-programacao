@@ -76,7 +76,6 @@ int main()
     ll q;
     cin >> q;
     ll co = 1;
-    next_alive[1] = 1;
     while (q--)
     {
         ll t, x;
@@ -91,7 +90,6 @@ int main()
             fathers.push_back(x);
             alive.push_back(true);
             sons.push_back(0);
-            next_alive.push_back(x);
 
             sons[x] += 1;
             ll curr = x;
@@ -105,7 +103,6 @@ int main()
         {
             // cout << "x == dead " << x << endl;
             alive[x] = false;
-            ll next = explore(x);
 
             ll curr = x;
             while (fathers[curr] != -1)
