@@ -13,7 +13,7 @@ using us = unsigned short;
 long long pinf = 9223372036854775807;
 long long minf = -9223372036854775807;
 
-void print(vector<bool> v, string s = "")
+void print(vector<ll> v, string s = "")
 {
     cout << s << ": ";
     for (auto i : v)
@@ -83,22 +83,27 @@ int main()
         adj[a].erase(remove(adj[a].begin(), adj[a].end(), b), adj[a].end());
         adj[b].erase(remove(adj[b].begin(), adj[b].end(), a), adj[b].end());
 
-        ll c = 0;
         // print(vis, "before clear");
         vis.clear();
         vis.resize(n + 1, false);
         // print(vis, "after clear");
-        for (ll u = 1; u < n + 1; u++)
+        mark_component(a, ++max_comp);
+        mark_component(b, ++max_comp);
+
+        //print(rep, "rep ");
+
+        ll c = 0;
+        for (ll i = 1; i <= n; i++)
         {
-            // cout << "u: " << u << " vis[u]: " << vis[u] << endl;
-            if (!vis[u])
+            //cout << rep[i] << " - " << rep[i-1] << endl;
+            if (rep[i] != rep[i-1])
             {
-                // cout << "marking component " << u << endl;
-                mark_component(u, u);
                 c++;
             }
         }
 
-        cout << c << "\n";
+        //print(rep);
+        cout << c << " ";
     }
+    cout << "\n";
 }

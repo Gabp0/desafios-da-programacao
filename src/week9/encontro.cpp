@@ -79,7 +79,15 @@ int main()
     {
         ll u, v, w;
         cin >> u >> v >> w;
-        d[u][v] = w;
+        if ((d[u][v] != pinf) || (d[v][u] != pinf))
+        {
+            //cout << "u : "  << u << "v : " << v <<  "differ \n";
+            d[u][v] = min(min(d[u][v], w), d[v][u]);
+            d[v][u] = d[u][v];
+        } else {
+            d[u][v] = w;
+            d[v][u] = w;
+        }
     }
 
     for (ll u = 0; u < n; u++)
@@ -90,10 +98,10 @@ int main()
             for (ll v = 0; v < n; v++)
             {
                 d[u][v] = min(d[u][v], d[u][m] + d[m][v]);
-                // d[v][u] = d[u][v];
+                //d[v][u] = d[u][v];
             }
 
-    print(d);
+    //print(d);
 
     ll min_dist = pinf;
     for (ll j = 0; j < n; j++)
@@ -103,7 +111,7 @@ int main()
         {
             max_distl = max(max_distl, d[i][j]);
         }
-        cout << "mdl = " << max_distl << endl;
+        //cout << "mdl = " << max_distl << endl;
         min_dist = min(max_distl, min_dist);
     }
 
