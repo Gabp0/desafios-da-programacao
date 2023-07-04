@@ -23,27 +23,37 @@ void print(vector<ll> v, string s = "")
     cout << endl;
 }
 
-const int N = 1e5+15; 
+const int N = 1e5 + 15;
 
 vector<vector<edge>> g(N);
 vector<ll> lot;
 
-vector<ll> d (N, pinf), vis(N);
-void dijkstra(int src) {
+vector<ll> d(N, pinf), vis(N);
+void dijkstra(int src)
+{
 
     priority_queue<pair<ll, int>, vector<pair<ll, int>>, greater<pair<ll, int>>> Q;
 
     d[src] = 0;
     Q.push({0, src});
 
-    while (!Q.empty()) {
-    auto [c, u] = Q.top(); Q.pop();
-    if (vis[u]) { continue; }
-    vis[u] = true;
-    for (auto [v, w] : g[u])
-        if (d[v] > d[u] + w) {
-            d[v] = d[u] + w;
-            Q.push({d[v], v});
+    while (!Q.empty())
+    {
+        auto [c, u] = Q.top();
+        Q.pop();
+        if (vis[u])
+        {
+            continue;
+        }
+        vis[u] = true;
+        for (auto [v, w] : g[u])
+        {
+
+            if (d[v] > d[u] + w)
+            {
+                d[v] = d[u] + w;
+                Q.push({d[v], v});
+            }
         }
     }
 }
@@ -58,21 +68,22 @@ int main()
     cin >> n;
     lot.resize(n);
 
-    //cout << "lendo lot" << endl;
+    // cout << "lendo lot" << endl;
     for (ll i = 0; i < n; i++)
     {
-        //cout << "a" << endl;
+        // cout << "a" << endl;
         cin >> lot[i];
     }
 
-    //cout << "w" << endl;
+    // cout << "w" << endl;
     ll m;
     cin >> m;
     while (m--)
     {
         ll x, y;
         cin >> x >> y;
-        --x; --y;
+        --x;
+        --y;
 
         ll w = lot[y] - lot[x];
         g[x].push_back(edge(y, w));
@@ -80,9 +91,9 @@ int main()
 
     ll q;
     cin >> q;
-    //cout << "djkstra" << endl;
+    // cout << "djkstra" << endl;
     dijkstra(0);
-    //cout << "custo calculado" << endl;
+    // cout << "custo calculado" << endl;
     while (q--)
     {
         ll x;
@@ -91,10 +102,11 @@ int main()
         ll lc = d[x];
         if ((lc < 3) || (lc >= pinf))
         {
-            cout << "Não, Edsger...\n"; 
-        } else {
+            cout << "Não, Edsger...\n";
+        }
+        else
+        {
             cout << lc << "\n";
         }
     }
-    
 }

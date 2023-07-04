@@ -23,44 +23,49 @@ void print(vector<ll> v, string s = "")
     cout << endl;
 }
 
-vector<vector<ll>> g;
-ll n;
+vector<ll> csr_cost;
+vector<ll> fathers;
+ll n, csr;
 
-int minDistance(vector<ll> dist, vector<bool> sptSet)
+vector<vector<edge>> g;
+// vector<ll> lot;
+
+vector<ll> d, vis;
+void dijkstra(int src)
 {
-  
-    ll min = pinf, min_index;
-  
-    for (ll v = 0; v < n; v++)
-        if (sptSet[v] == false && dist[v] <= min)
-            min = dist[v], min_index = v;
-  
-    return min_index;
-}
 
-vector<ll> dijkstra(ll src)
-{
-    vector<ll> dist(n); 
-    vector<bool> sptSet(n);
-    for (ll i = 0; i < n; i++)
-        dist[i] = pinf, sptSet[i] = false;
-  
-    dist[src] = 0;
-  
-    for (ll count = 0; count < n - 1; count++) {
+    priority_queue<pair<ll, int>, vector<pair<ll, int>>, greater<pair<ll, int>>> Q;
 
-        int u = minDistance(dist, sptSet);
-  
-        sptSet[u] = true;
-  
-        for (ll v = 0; v < n; v++)
-            if (!sptSet[v] && g[u][v]
-                && dist[u] != pinf
-                && dist[u] + g[u][v] < dist[v])
-                dist[v] = dist[u] + g[u][v];
+    for (int i = 0; i <= csr; i++)
+    {
+        Q.push({d[i], i});
     }
-  
-    return dist;
+
+    while (!Q.empty())
+    {
+        auto [c, u] = Q.top();
+        Q.pop();
+        if (vis[u])
+        {
+            continue;
+        }
+        vis[u] = true;
+        //cout << "evaluating " << u << endl;
+        for (auto [v, w] : g[u])
+        {
+            //cout << "   " << v << " " << w << endl;
+            if (d[v] > d[u] + w)
+            {
+                if (v > csr)
+                {
+                    // cout << "   updating " << v << " from " << d[v] << " to " << d[u] + w << endl;
+                    d[v] = d[u] + w;
+                    fathers[v] = u;
+                }
+                Q.push({d[v], v});
+            }
+        }
+    }
 }
 
 int main()
@@ -69,15 +74,44 @@ int main()
     ios_base::sync_with_stdio(0);
 
     // code
-    ll m, c, k;
-    cin >> n >> m >> c >> k;
-    g = vector<vector<ll>>(n, vector<ll>(n, pinf));
+    ll m, k;
+    cin >> n >> m >> csr >> k;
+    csr--;
+    string out = "";
+
+    g = vector<vector<edge>>(n);
+    fathers = vector<ll>(n, -1);
+    d = vector<ll>(n, pinf);
+    vis = vector<ll>(n, false);
+
+    csr_cost = vector<ll>(csr + 1, 0);
     while (m--)
     {
         ll u, v, p;
         cin >> u >> v >> p;
-        g[u][v] = p;
-        g[v][u] = p;
+        out += to_string(u) + to_string(v) + to_string(p) + "|";
+        g[u].push_back(edge(v, p));
+        g[v].push_back(edge(u, p));
+
+        if ((abs(u - v) == 1) && (u <= csr) && (v <= csr))
+        {
+            csr_cost[max(u, v)] = p;
+        }
     }
-    vector<ll> dist = dijkstra(k);
+
+    d[csr] = 0;
+    fathers[csr] = -1;
+    for (int i = csr - 1; i >= 0; i--)
+    {
+        d[i] = d[i + 1] + csr_cost[i + 1];
+        fathers[i] = i + 1;
+    }
+    // print(d, "d");
+
+    dijkstra(csr);
+
+    // print(d, "d");
+    // print(fathers, "fathers");
+
+    cout << d[k] << endl;
 }
